@@ -1,6 +1,7 @@
 import logging
 
 MONKEYS = []
+LOGLVL = logging.INFO
 
 
 class Monkey:
@@ -9,29 +10,35 @@ class Monkey:
     operation = lambda worryLvl : worryLvl + 1
     divisor = 0
     ifTrueMonkey = 0
-    ifFalesMoney = 0
+    ifFalesMonkey = 0
     inspectionCount = 0
 
-    def __init__(self, id, startingItems, operation, divisor, ifTrueMonkey, ifFalesMoney):
+    def __init__(self, id, startingItems, operation, divisor, ifTrueMonkey, ifFalesMonkey):
         self.id = id
         self.items = startingItems
         self.operation = operation
         self.divisor = divisor
         self.ifTrueMonkey = ifTrueMonkey
-        self.ifFalesMoney = ifFalesMoney
+        self.ifFalesMonkey = ifFalesMonkey
 
     def inspectItems(self):
         logging.debug("Monkey %s starts inspecting...", self.id)
         for itemWorryLvl in self.items:
-            orifWorryLvl = itemWorryLvl
+            origfWorryLvl = itemWorryLvl
             itemWorryLvl = self.operation(itemWorryLvl)
-            itemWorryLvl = int(itemWorryLvl / 3)
+            itemWorryLvl = int(round(itemWorryLvl / 3,0))
+            logging.debug("WorryLvl of Item %s is now %s", origfWorryLvl, itemWorryLvl)
             
-            if round(itemWorryLvl % self.divisor) == 0:
+            if round(itemWorryLvl) % self.divisor == 0:
                 MONKEYS[self.ifTrueMonkey].items.append(itemWorryLvl)
+                logging.debug("TRUE: Throwing item %s to Monkey %s", itemWorryLvl, self.ifTrueMonkey)
+                #logging.debug("%s", MONKEYS[self.ifTrueMonkey].items )
             else: 
-                MONKEYS[self.ifFalesMoney].items.append(itemWorryLvl)
-            self.items.remove(orifWorryLvl)
+                MONKEYS[self.ifFalesMonkey].items.append(itemWorryLvl)
+                logging.debug("FALSE: Throwing item %s to Monkey %s", itemWorryLvl, self.ifFalesMonkey)
+                #logging.debug("%s", MONKEYS[self.ifFalesMonkey].items )
+
+            self.items.remove(origfWorryLvl)
             self.inspectionCount = self.inspectionCount + 1 
         #logging.debug(self.items.toStr())
 
@@ -54,7 +61,7 @@ def getMonkeyBusiness():
 
 def main():
     global MONKEYS
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=LOGLVL, filename=".\\2022\\11\log.txt", filemode="w")
 
     m0 = Monkey(0, [52, 60, 85, 69, 75, 75], lambda worryLvl : worryLvl * 17, 13, 6, 7)
     m1 = Monkey(1, [96, 82, 61, 99, 82, 84, 85], lambda worryLvl : worryLvl + 8, 7, 0, 7)
@@ -69,12 +76,16 @@ def main():
 
     #Run the Rounds
     for round in range(20):
-        logging.debug("############ STARTING ROUND %s ############", round)
+        logging.info("############ STARTING ROUND %s ############", round)
         for m in MONKEYS:
             m.inspectItems()
+        logging.info("############ ENDING ROUND %s ############", round)
+        for m in MONKEYS:
+            logging.info("Monkey %s : %s", m.id, m.items)
 
-
-    logging.info("MonkeyBusiness = %s", getMonkeyBusiness()) #guess is to low
+    monkeyBusiness = getMonkeyBusiness()
+    logging.info("MonkeyBusiness = %s", monkeyBusiness) #guess is to low
+    print("MonkeyBusiness = ", monkeyBusiness)
 
 if __name__ == "__main__":
     main()
