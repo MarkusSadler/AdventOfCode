@@ -1,3 +1,5 @@
+import logging
+
 MONKEYS = []
 
 
@@ -17,31 +19,27 @@ class Monkey:
         self.divisor = divisor
         self.ifTrueMonkey = ifTrueMonkey
         self.ifFalesMoney = ifFalesMoney
-    
-    def throw(object, self):
-        if object % self.divisor == 0:
-            print("not yet implemented")
 
     def inspectItems(self):
-        print("Monkey ", self.id, "starts inspecting...")
+        logging.debug("Monkey %s starts inspecting...", self.id)
         for itemWorryLvl in self.items:
             orifWorryLvl = itemWorryLvl
             itemWorryLvl = self.operation(itemWorryLvl)
             itemWorryLvl = int(itemWorryLvl / 3)
             
-            if itemWorryLvl % self.divisor == 0:
+            if round(itemWorryLvl % self.divisor) == 0:
                 MONKEYS[self.ifTrueMonkey].items.append(itemWorryLvl)
             else: 
                 MONKEYS[self.ifFalesMoney].items.append(itemWorryLvl)
             self.items.remove(orifWorryLvl)
             self.inspectionCount = self.inspectionCount + 1 
-        print(self.items)
+        #logging.debug(self.items.toStr())
 
 def getMonkeyBusiness():
     highestMonkey = MONKEYS[0]
     secondHighestMonkey = MONKEYS[0]
     for m in MONKEYS:
-        print("Monkey ", m.id, " in spected items ", m.inspectionCount , " times")
+        logging.info("Monkey %s in spected items %s times", m.id,  m.inspectionCount)
         if m.inspectionCount > highestMonkey.inspectionCount:
             if highestMonkey.inspectionCount > secondHighestMonkey.inspectionCount:
                 secondHighestMonkey = highestMonkey
@@ -56,6 +54,7 @@ def getMonkeyBusiness():
 
 def main():
     global MONKEYS
+    logging.basicConfig(level=logging.INFO)
 
     m0 = Monkey(0, [52, 60, 85, 69, 75, 75], lambda worryLvl : worryLvl * 17, 13, 6, 7)
     m1 = Monkey(1, [96, 82, 61, 99, 82, 84, 85], lambda worryLvl : worryLvl + 8, 7, 0, 7)
@@ -70,12 +69,12 @@ def main():
 
     #Run the Rounds
     for round in range(20):
-        print("############ STARTING ROUND ", round, " ############")
+        logging.debug("############ STARTING ROUND %s ############", round)
         for m in MONKEYS:
             m.inspectItems()
 
 
-    print("MonkeyBusiness = ", getMonkeyBusiness()) #guess is to low
+    logging.info("MonkeyBusiness = %s", getMonkeyBusiness()) #guess is to low
 
 if __name__ == "__main__":
     main()
