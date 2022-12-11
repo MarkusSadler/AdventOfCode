@@ -2,7 +2,7 @@ import logging
 
 MONKEYS = []
 LOGLVL = logging.INFO
-
+6
 
 class Monkey:
     id = 0
@@ -25,11 +25,12 @@ class Monkey:
         logging.debug("Monkey %s starts inspecting...", self.id)
         for itemWorryLvl in self.items:
             origfWorryLvl = itemWorryLvl
+
             itemWorryLvl = self.operation(itemWorryLvl)
-            itemWorryLvl = int(round(itemWorryLvl / 3,0))
+            itemWorryLvl = int(round(itemWorryLvl / 3))
             logging.debug("WorryLvl of Item %s is now %s", origfWorryLvl, itemWorryLvl)
             
-            if round(itemWorryLvl) % self.divisor == 0:
+            if itemWorryLvl % self.divisor == 0:
                 MONKEYS[self.ifTrueMonkey].items.append(itemWorryLvl)
                 logging.debug("TRUE: Throwing item %s to Monkey %s", itemWorryLvl, self.ifTrueMonkey)
                 #logging.debug("%s", MONKEYS[self.ifTrueMonkey].items )
@@ -55,6 +56,7 @@ def getMonkeyBusiness():
         elif m.inspectionCount > secondHighestMonkey.inspectionCount:
             secondHighestMonkey = m
     
+    logging.info("The most active monkey is %s and the second most active is %s", highestMonkey.id, secondHighestMonkey.id)
     monkeyBusiness = highestMonkey.inspectionCount * secondHighestMonkey.inspectionCount
     
     return monkeyBusiness
@@ -76,10 +78,10 @@ def main():
 
     #Run the Rounds
     for round in range(20):
-        logging.info("############ STARTING ROUND %s ############", round)
+        logging.info("############ STARTING ROUND %s ############", round + 1)
         for m in MONKEYS:
             m.inspectItems()
-        logging.info("############ ENDING ROUND %s ############", round)
+        logging.info("############ ENDING ROUND %s ############", round + 1)
         for m in MONKEYS:
             logging.info("Monkey %s : %s", m.id, m.items)
 
