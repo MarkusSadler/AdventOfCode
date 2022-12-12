@@ -28,9 +28,31 @@ def getScore(turn):
             score = 2
         elif turn[1] == "Z":
             score = 3
-            score = score + 3
-    
+            score = score + 3 
     return score
+
+def figureOutMove(oppenentMove, suggestion):
+    if oppenentMove == "A":
+        if suggestion == "X": #lose
+            return "Z"
+        elif suggestion == "Y": #draw
+            return "X"
+        elif suggestion == "Z": #win
+            return "Y"
+    elif oppenentMove == "B":
+        if suggestion == "X": #lose
+            return "X"
+        elif suggestion == "Y": #draw
+            return "Y"
+        elif suggestion == "Z": #win
+            return "Z"
+    elif oppenentMove == "C":    
+        if suggestion == "X": #lose
+            return "Y"
+        elif suggestion == "Y": #draw
+            return "Z"
+        elif suggestion == "Z": #win
+            return "X"
 
 def main():
     input = open('.\\2022\\2\\input.txt', "r")
@@ -44,7 +66,7 @@ def main():
     #print(stratGuide)
     totalScore = 0
     for turn in stratGuide:
-        totalScore = totalScore + getScore(turn)
+        totalScore = totalScore + getScore([turn[0],figureOutMove(turn[0],turn[1])])
 
     print(totalScore)
 

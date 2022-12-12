@@ -17,3 +17,8 @@ Score:
 0 lose
 3 draw
 6 win
+
+Suggestion:
+X lose
+Y draw
+Z win
