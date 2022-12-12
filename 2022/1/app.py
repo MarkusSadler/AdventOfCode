@@ -18,14 +18,22 @@ def main():
         else:
             elfes.append(elf)
             elf = []
-
-    mostCals = 0
+    
+    allTotalCals = []
     for elf in elfes:
         cals = countCaloriesOfElf(elf)
-        if cals > mostCals:
-            mostCals = cals
+        allTotalCals.append(cals)
+    allTotalCals.sort(reverse=True)
 
-    print(mostCals)
+    mostCals = allTotalCals[0]
+    secondMostCals = allTotalCals[1]
+    thirdMostCals = allTotalCals[2]
+
+
+    print("1: ", mostCals)
+    print("2: ", secondMostCals)
+    print("3: ", thirdMostCals)
+    print(mostCals + secondMostCals + thirdMostCals)
 
 
 if __name__ == "__main__":
