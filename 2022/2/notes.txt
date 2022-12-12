@@ -1,0 +1,19 @@
+Opponent Plays:
+A = Rock
+B = Paper
+C = Scissors
+
+My Response:
+X = Rock
+Y = Paper
+Z = Scissors
+
+
+Score:
+1 Rock
+2 Paper
+3 Scissors
++
+0 lose
+3 draw
+6 win
