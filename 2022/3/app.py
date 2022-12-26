@@ -1,13 +1,4 @@
 import string
-PRIORTY_LowerCase = []
-PRIORTY_UpperCase = []
-
-def getItemPriority(item):
-    if item.islower():
-        return PRIORTY_LowerCase[item]
-    else:
-        return PRIORTY_UpperCase[item]
-
 
 def main():
     global PRIORTY_LowerCase, PRIORTY_UpperCase
@@ -21,27 +12,27 @@ def main():
     for x in PRIORTY_UpperCase:
         PRIORITIES[x] = PRIORTY_UpperCase[x] + 26
 
-    print(PRIORITIES)
-
-    #print(PRIORTY_UpperCase)
     for line in input:
         firstpart, secondpart = line[:len(line)//2], line[len(line)//2:]
         rucksack = [firstpart.strip(),secondpart.strip()]
         rucksacks.append(rucksack)
     
-    #print(rucksacks)
-    itemTypes = list(string.ascii_lowercase) + list(string.ascii_uppercase)
-    
-    sumPriority = 0
-    for rucksack in rucksacks:
-        for compartment in rucksack:
-            for itemType in itemTypes:
-                if itemType not in compartment:
-                    itemTypes.remove(itemType)
-                else:
-                    sumPriority = sumPriority + PRIORITIES[itemType]
 
-    print(sumPriority)
+    itemTypes = list(string.ascii_lowercase) + list(string.ascii_uppercase)
+    doubleItems = []
+    
+    for rucksack in rucksacks:
+        for item in rucksack[0]:
+            if item in rucksack[1]:
+                doubleItems.append(item)
+                break
+
+    sumPriorities = 0
+    for item in doubleItems:
+        sumPriorities = sumPriorities + PRIORITIES[item]
+
+
+    print(sumPriorities)
             
 
         
